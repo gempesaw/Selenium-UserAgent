@@ -164,8 +164,11 @@ has caps => (
         }
 
         return {
-            browserName => $self->browserName,
-            %$options
+            inner_window_size => $self->get_size_for('caps'),
+            desired_capabilities => {
+                browserName => $self->browserName,
+                %$options
+            }
         };
     }
 );
