@@ -89,6 +89,22 @@ has agent => (
         return $agent;
     }
 );
+
+=attr orientation
+
+Optional: specify the orientation of the mobile device. Your options
+are C<portrait> or C<landscape>; defaults to C<portrait>.
+
+=cut
+
+has orientation => (
+    is => 'rw',
+    coerce => sub {
+        croak 'Invalid orientation; please choose "portrait" or "landscape'
+          unless $_[0] =~ /portrait|landscape/;
+        return $_[0];
+    },
+    default => 'portrait'
 );
 
 has _firefox_options => (
@@ -109,7 +125,6 @@ has _firefox_options => (
         };
     }
 );
-
 
 has _chrome_options => (
     is => 'ro',
@@ -173,7 +188,7 @@ has _specs => (
     }
 );
 
-sub _get_user_agent_string {
+sub get_user_agent {
     my ($self) = @_;
 
     my $specs = $self->_specs;
