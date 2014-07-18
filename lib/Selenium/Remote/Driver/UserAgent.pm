@@ -36,7 +36,7 @@ webdriver testing suite set up.
 =attr browserName
 
 Required: specify which browser type to use. Currently, we only
-support 'Chrome' and 'Firefox'.
+support C<Chrome> and C<Firefox>.
 
     my $dua = Selenium::Remote::Driver::UserAgent->new(
         browserName => 'chrome',
@@ -88,9 +88,11 @@ has _firefox_options => (
     builder => sub {
         my ($self) = @_;
 
+        my $dim = $self->get_size;
+
         my $profile = Selenium::Remote::Driver::Firefox::Profile->new;
         $profile->set_preference(
-            'general.useragent.override' => $self->_get_user_agent_string
+            'general.useragent.override' => $self->get_user_agent
         );
 
         return {
@@ -106,17 +108,23 @@ has _chrome_options => (
     builder => sub {
         my ($self) = @_;
 
+        my $size = $self->get_size_for('chrome');
+
         return {
             chromeOptions => {
                 'args' => [
-                    '--user-agent=' . $self->_get_user_agent_string
+                    'user-agent=' . $self->get_user_agent,
+                    'window-size=' . $size
+                ],
+                'excludeSwitches'   => [
+                    'ignore-certificate-errors'
                 ]
             }
         }
     }
 );
 
-has desired => (
+has caps => (
     is => 'ro',
     lazy => 1,
     builder => sub {
@@ -165,6 +173,26 @@ sub _get_user_agent_string {
     return $specs->{$agent}->{user_agent};
 }
 
+sub get_size {
+    my ($self) = @_;
 
+    my $specs = $self->_specs;
+    my $agent = $self->agent;
+    my $orientation = $self->orientation;
+
+    return $specs->{$agent}->{$orientation};
+}
+
+sub get_size_for {
+    my ($self, $format) = @_;
+    my $dim = $self->get_size;
+
+    if ($format eq 'caps') {
+        return [ $dim->{height}, $dim->{width} ];
+    }
+    elsif ($format eq 'chrome') {
+        return $dim->{width} . ',' . $dim->{height};
+    }
+}
 
 1;
