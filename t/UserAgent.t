@@ -2,39 +2,50 @@
 
 use strict;
 use warnings;
+use JSON;
 use Test::More;
+use Test::ParallelSubtest max_parallel => 5;
 use Selenium::Remote::Driver;
 use Selenium::Remote::Driver::UserAgent;
 
 my @browsers = qw/chrome firefox/;
 my @agents = qw/iphone ipad_seven ipad android_phone android_tablet/;
 
-HAPPY_PATH: {
-    foreach my $browser (@browsers) {
-        foreach my $agent (@agents) {
-            my $dua = Selenium::Remote::Driver::UserAgent->new(
-                browserName => $browser,
-                agent => $agent
-            );
 
-            my $desired = $dua->desired;
-            my $driver = Selenium::Remote::Driver->new_from_caps(
-                desired_capabilities => { %$desired }
-            );
 
-            my $prefix = $browser . ', ' . $agent . ': ';
+foreach my $browser (@browsers) {
+    foreach my $agent (@agents) {
+        foreach my $orientation (@orientations) {
+            my $test_prefix = join(', ', ($browser, $agent, $orientation));
+            bg_subtest $test_prefix => sub {
+                my $dua = Selenium::Remote::Driver::UserAgent->new(
+                    browserName => $browser,
+                    agent => $agent,
+                    orientation => $orientation
+                );
 
-            my $actual_caps = $driver->get_capabilities;
-            ok($actual_caps->{browserName} eq $browser, $prefix . 'correct browser');
+                my $caps = $dua->caps;
 
-            my $actual_ua = $driver->execute_script('return navigator.userAgent');
+                my $driver = Selenium::Remote::Driver->new_from_caps(%$caps);
+                my $actual_caps = $driver->get_capabilities;
 
-            # useragents with underscores in them need to be trimmed.
-            # for example, ipad_seven only has 'iPad' in its user
-            # agent, not 'ipad_seven'
-            my $expected_agent = $agent;
-            $expected_agent =~ s/_.*//;
-            cmp_ok($actual_ua, '=~', qr/$expected_agent/i, $prefix . 'user agent includes ' . $agent);
+                ok($actual_caps->{browserName} eq $browser, 'correct browser');
+
+                my $details = $driver->execute_script(qq/return {
+                    agent: navigator.userAgent,
+                    width: window.innerWidth,
+                    height: window.innerHeight
+                }/);
+
+                # useragents with underscores in them need to be trimmed.
+                # for example, ipad_seven only has 'iPad' in its user
+                # agent, not 'ipad_seven'
+                my $expected_agent = $agent;
+                $expected_agent =~ s/_.*//;
+                cmp_ok($details->{agent} , '=~', qr/$expected_agent/i, 'user agent includes ' . $agent);
+                cmp_ok($details->{width} , '==', $dua->get_size->{width}, 'width is correct.');
+                cmp_ok($details->{height}, '==', $dua->get_size->{height} , 'height is correct.');
+            };
         }
     }
 }
