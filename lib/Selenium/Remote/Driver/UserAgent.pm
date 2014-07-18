@@ -69,8 +69,8 @@ has _chrome_options => (
     }
 );
 
-has options => (
-    is => 'rw',
+has desired => (
+    is => 'ro',
     lazy => 1,
     builder => sub {
         my ($self) = @_;
@@ -93,11 +93,6 @@ has options => (
 
 
 
-sub desired {
-    my ($self) = @_;
-
-    return $self->options;
-}
 
 sub _get_user_agent_string {
     my ($self) = @_;
