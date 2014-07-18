@@ -57,7 +57,6 @@ has browserName => (
     }
 );
 
-
 =attr agent
 
 Required: specify which mobile device type to emulate. Your options
