@@ -39,15 +39,5 @@ HAPPY_PATH: {
     }
 }
 
-INVALID_ARGUMENTS: {
-    eval {
-        my $bad = Selenium::Remote::Driver::UserAgent->new(
-            browserName => 'invalid',
-            agent => 'iphone'
-        );
-    };
-
-    ok( $@ =~ /coercion.*failed/, 'browser name is coerced');
-}
 
 done_testing;
