@@ -2,26 +2,62 @@ use strict;
 use warnings;
 package Selenium::Remote::Driver::UserAgent;
 
+# ABSTRACT: Emulate mobile devices by setting user agents when using webdriver
 use Moo;
 use Cwd qw/abs_path/;
 use JSON;
 use Selenium::Remote::Driver::Firefox::Profile;
+
+=head1 SYNOPSIS
+
+    my $dua = Selenium::Remote::Driver::UserAgent->new(
+        browserName => 'chrome',
+        agent => 'iphone'
+    );
+
+    my $desired = $dua->desired;
+    my $driver = Selenium::Remote::Driver->new_from_caps(
+        desired_capabilities => { %$desired }
+    );
+
+=head1 DESCRIPTION
+
+This package will help you test your websites on mobile devices by
+convincing your browsers to masquerade as a mobile device. You can
+start up Firefox or Chrome with the same user agents that your mobile
+browsers would send, along with the same screen resolution and layout.
+
+Although the experience may not be 100% the same as manually testing
+on an actual mobile device, the advantage of testing this way is that
+you hardly need any additional infrastructure if you've already got a
+webdriver testing suite set up.
+
+=attr browserName
+
+Required: specify which browser type to use. Currently, we only
+support Chrome and Firefox.
+
+    my $dua = Selenium::Remote::Driver::UserAgent->new(
+        browserName => 'chrome',
+        agent => 'ipad'
+    );
+
+=cut
 
 has browserName => (
     is => 'rw',
     required => 1
 );
 
-has agent => (
-    is => 'rw',
-    required => 1
-);
+=attr agent
 
 has specs => (
     is => 'ro',
     builder => sub {
         my $devices_file = abs_path(__FILE__);
         $devices_file =~ s/UserAgent\.pm$/devices.json/;
+Required: specify which mobile device type to emulate. Your options
+are:
 
         my $devices;
         {
@@ -30,9 +66,26 @@ has specs => (
             $devices = from_json(<$fh>);
             close ($fh);
         }
+    iphone
+    ipad_seven
+    ipad
+    android_phone
+    android_tablet
 
         return $devices;
     }
+Usage looks like:
+
+    my $dua = Selenium::Remote::Driver::UserAgent->new(
+        browserName => 'chrome',
+        agent => 'ipad_seven'
+    );
+
+=cut
+
+has agent => (
+    is => 'rw',
+    required => 1
 );
 
 has _firefox_options => (
