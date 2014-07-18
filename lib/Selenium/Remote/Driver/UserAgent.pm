@@ -5,6 +5,7 @@ package Selenium::Remote::Driver::UserAgent;
 # ABSTRACT: Emulate mobile devices by setting user agents when using webdriver
 use Moo;
 use Cwd qw/abs_path/;
+use Carp qw/croak/;
 use JSON;
 use Selenium::Remote::Driver::Firefox::Profile;
 
@@ -35,7 +36,7 @@ webdriver testing suite set up.
 =attr browserName
 
 Required: specify which browser type to use. Currently, we only
-support Chrome and Firefox.
+support 'Chrome' and 'Firefox'.
 
     my $dua = Selenium::Remote::Driver::UserAgent->new(
         browserName => 'chrome',
@@ -46,8 +47,16 @@ support Chrome and Firefox.
 
 has browserName => (
     is => 'rw',
-    required => 1
+    required => 1,
+    coerce => sub {
+        my $browser = $_[0];
+
+        croak 'Only chrome and firefox are supported.'
+          unless $browser =~ /chrome|firefox/;
+        return lc($browser)
+    }
 );
+
 
 =attr agent
 
