@@ -79,7 +79,16 @@ Usage looks like:
 
 has agent => (
     is => 'rw',
-    required => 1
+    required => 1,
+    coerce => sub {
+        my $agent = $_[0];
+
+        my @valid = qw/iphone ipad_seven ipad android_phone android_tablet/;
+
+        croak 'invalid agent' unless $agent ~~ @valid;
+        return $agent;
+    }
+);
 );
 
 has _firefox_options => (
