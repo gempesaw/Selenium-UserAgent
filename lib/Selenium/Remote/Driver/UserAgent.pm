@@ -16,10 +16,8 @@ use Selenium::Remote::Driver::Firefox::Profile;
         agent => 'iphone'
     );
 
-    my $desired = $dua->desired;
-    my $driver = Selenium::Remote::Driver->new_from_caps(
-        desired_capabilities => { %$desired }
-    );
+    my $caps = $dua->caps;
+    my $driver = Selenium::Remote::Driver->new_from_caps(%$caps);
 
 =head1 DESCRIPTION
 
