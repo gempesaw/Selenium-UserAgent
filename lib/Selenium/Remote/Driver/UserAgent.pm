@@ -51,29 +51,15 @@ has browserName => (
 
 =attr agent
 
-has specs => (
-    is => 'ro',
-    builder => sub {
-        my $devices_file = abs_path(__FILE__);
-        $devices_file =~ s/UserAgent\.pm$/devices.json/;
 Required: specify which mobile device type to emulate. Your options
 are:
 
-        my $devices;
-        {
-            local $/ = undef;
-            open (my $fh, "<", $devices_file);
-            $devices = from_json(<$fh>);
-            close ($fh);
-        }
     iphone
     ipad_seven
     ipad
     android_phone
     android_tablet
 
-        return $devices;
-    }
 Usage looks like:
 
     my $dua = Selenium::Remote::Driver::UserAgent->new(
@@ -144,13 +130,28 @@ has desired => (
     }
 );
 
+has _specs => (
+    is => 'ro',
+    builder => sub {
+        my $devices_file = abs_path(__FILE__);
+        $devices_file =~ s/UserAgent\.pm$/devices.json/;
 
+        my $devices;
+        {
+            local $/ = undef;
+            open (my $fh, "<", $devices_file);
+            $devices = from_json(<$fh>);
+            close ($fh);
+        }
 
+        return $devices;
+    }
+);
 
 sub _get_user_agent_string {
     my ($self) = @_;
 
-    my $specs = $self->specs;
+    my $specs = $self->_specs;
     my $agent = $self->agent;
 
     return $specs->{$agent}->{user_agent};
