@@ -4,14 +4,22 @@ use strict;
 use warnings;
 use JSON;
 use Test::More;
+use IO::Socket::INET;
 use Test::ParallelSubtest max_parallel => 5;
 use Selenium::Remote::Driver;
 use Selenium::Remote::Driver::UserAgent;
 
 my @browsers = qw/chrome firefox/;
 my @agents = qw/iphone ipad_seven ipad android_phone android_tablet/;
+my @orientations = qw/portrait landscape/;
 
+my $sock = IO::Socket::INET->new(
+    PeerAddr => 'localhost',
+    PeerPort => 4444
+);
 
+plan skip_all => "Author tests not required for installation." unless $ENV{RELEASE_TESTING};
+plan skip_all => "no remote driver server?" unless $sock;
 
 foreach my $browser (@browsers) {
     foreach my $agent (@agents) {
