@@ -58,5 +58,28 @@ foreach my $browser (@browsers) {
     }
 }
 
+sub validate_caps_structure {
+    my ($caps, $browser, $orientation)  = @_;
+
+    ok(exists $caps->{desired_capabilities}, 'caps: has desired capabilities key');
+
+    my $desired = $caps->{desired_capabilities};
+    ok($desired->{browserName} eq $browser, 'caps: with proper browser');
+
+    if ($browser eq 'chrome') {
+        my $chrome_args = join('', @{ $desired->{chromeOptions}->{args} });
+        ok($chrome_args =~ /user-agent/, 'caps: Chrome has user agent arg');
+        ok($chrome_args =~ /window-size/, 'caps: Chrome has window size arg');
+    }
+    elsif ($browser eq 'firefox') {
+        ok(exists $desired->{firefox_profile}, 'caps: FF has firefox_profile key');
+    }
+
+    my $size = $caps->{inner_window_size};
+    my $cmp = $orientation eq 'portrait' ? '>' : '<';
+    cmp_ok($size->[0], $cmp, $size->[1], 'window size: correct order');
+}
+
+
 
 done_testing;
