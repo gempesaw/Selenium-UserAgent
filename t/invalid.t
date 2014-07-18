@@ -32,3 +32,5 @@ eval {
 };
 
 ok( $@ =~ /coercion.*failed/, 'orientation is coerced');
+
+done_testing;
