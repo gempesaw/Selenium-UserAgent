@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use JSON;
+
 use Test::More;
 use IO::Socket::INET;
 use Test::ParallelSubtest max_parallel => 5;
@@ -18,9 +18,6 @@ my $sock = IO::Socket::INET->new(
     PeerPort => 4444
 );
 
-plan skip_all => "Author tests not required for installation." unless $ENV{RELEASE_TESTING};
-plan skip_all => "no remote driver server?" unless $sock;
-
 foreach my $browser (@browsers) {
     foreach my $agent (@agents) {
         foreach my $orientation (@orientations) {
@@ -33,27 +30,34 @@ foreach my $browser (@browsers) {
                 );
 
                 my $caps = $dua->caps;
+                validate_caps_structure($caps, $browser, $orientation);
 
-                my $driver = Selenium::Remote::Driver->new_from_caps(%$caps);
-                my $actual_caps = $driver->get_capabilities;
+              SKIP: {
+                    skip 'Release tests not required for installation', 4 unless $ENV{RELEASE_TESTING};
+                    skip 'remote driver server not found', 4 unless defined $sock;
 
-                ok($actual_caps->{browserName} eq $browser, 'correct browser');
+                    my $driver = Selenium::Remote::Driver->new_from_caps(%$caps);
+                    my $actual_caps = $driver->get_capabilities;
 
-                my $details = $driver->execute_script(qq/return {
-                    agent: navigator.userAgent,
-                    width: window.innerWidth,
-                    height: window.innerHeight
-                }/);
+                    ok($actual_caps->{browserName} eq $browser, 'correct browser');
 
-                # useragents with underscores in them need to be trimmed.
-                # for example, ipad_seven only has 'iPad' in its user
-                # agent, not 'ipad_seven'
-                my $expected_agent = $agent;
-                $expected_agent =~ s/_.*//;
-                cmp_ok($details->{agent} , '=~', qr/$expected_agent/i, 'user agent includes ' . $agent);
-                cmp_ok($details->{width} , '==', $dua->get_size->{width}, 'width is correct.');
-                cmp_ok($details->{height}, '==', $dua->get_size->{height} , 'height is correct.');
+                    my $details = $driver->execute_script(qq/return {
+                        agent: navigator.userAgent,
+                        width: window.innerWidth,
+                        height: window.innerHeight
+                    }/);
+
+                    # useragents with underscores in them need to be trimmed.
+                    # for example, ipad_seven only has 'iPad' in its user
+                    # agent, not 'ipad_seven'
+                    my $expected_agent = $agent;
+                    $expected_agent =~ s/_.*//;
+                    cmp_ok($details->{agent} , '=~', qr/$expected_agent/i, 'user agent includes ' . $agent);
+                    cmp_ok($details->{width} , '==', $dua->get_size->{width}, 'width is correct.');
+                    cmp_ok($details->{height}, '==', $dua->get_size->{height} , 'height is correct.');
+                }
             };
+
         }
     }
 }
