@@ -4,9 +4,9 @@ package Selenium::Remote::Driver::UserAgent;
 
 # ABSTRACT: Emulate mobile devices by setting user agents when using webdriver
 use Moo;
+use JSON;
 use Cwd qw/abs_path/;
 use Carp qw/croak/;
-use JSON;
 use Selenium::Remote::Driver::Firefox::Profile;
 
 =head1 SYNOPSIS
