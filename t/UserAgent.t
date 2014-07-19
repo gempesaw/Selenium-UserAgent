@@ -6,7 +6,7 @@ use warnings;
 use Test::More;
 use IO::Socket::INET;
 use Test::ParallelSubtest max_parallel => 5;
-use Selenium::Remote::Driver;
+use Selenium::Remote::Driver 0.2102;
 use Selenium::Remote::Driver::UserAgent;
 
 my @browsers = qw/chrome firefox/;
