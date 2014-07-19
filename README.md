@@ -4,7 +4,7 @@ Selenium::Remote::Driver::UserAgent - Emulate mobile devices by setting user age
 
 # VERSION
 
-version 0.001
+version 0.01
 
 # SYNOPSIS
 
