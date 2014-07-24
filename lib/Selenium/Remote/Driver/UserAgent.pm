@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Selenium::Remote::Driver::UserAgent;
-$Selenium::Remote::Driver::UserAgent::VERSION = '0.01';
+$Selenium::Remote::Driver::UserAgent::VERSION = '0.02';
 # ABSTRACT: Emulate mobile devices by setting user agents when using webdriver
 use Moo;
 use JSON;
@@ -176,7 +176,7 @@ Selenium::Remote::Driver::UserAgent - Emulate mobile devices by setting user age
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 SYNOPSIS
 
