@@ -27,4 +27,4 @@ requires:
 resources:
   bugtracker: https://github.com/gempesaw/Selenium-Remote-Driver-UserAgent/issues
   repository: git://github.com/gempesaw/Selenium-Remote-Driver-UserAgent.git
-version: '0.02'
+version: '0.03'

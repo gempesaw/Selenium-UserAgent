@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Selenium::Remote::Driver::UserAgent;
-$Selenium::Remote::Driver::UserAgent::VERSION = '0.02';
+$Selenium::Remote::Driver::UserAgent::VERSION = '0.03';
 # ABSTRACT: Emulate mobile devices by setting user agents when using webdriver
 use Moo;
 use JSON;
@@ -31,7 +31,7 @@ has agent => (
 
         my @valid = qw/iphone ipad_seven ipad android_phone android_tablet/;
 
-        croak 'invalid agent' unless $agent ~~ @valid;
+        croak 'invalid agent' unless grep { $_ eq $agent } @valid;
         return $agent;
     }
 );
@@ -53,15 +53,15 @@ has _firefox_options => (
     builder => sub {
         my ($self) = @_;
 
-        my $dim = $self->get_size;
+        my $dim = $self->_get_size;
 
         my $profile = Selenium::Remote::Driver::Firefox::Profile->new;
         $profile->set_preference(
-            'general.useragent.override' => $self->get_user_agent
+            'general.useragent.override' => $self->_get_user_agent
         );
 
         return {
-            firefox_profile => $profile->_encode
+            firefox_profile => $profile
         };
     }
 );
@@ -72,12 +72,12 @@ has _chrome_options => (
     builder => sub {
         my ($self) = @_;
 
-        my $size = $self->get_size_for('chrome');
+        my $size = $self->_get_size_for('chrome');
 
         return {
             chromeOptions => {
                 'args' => [
-                    'user-agent=' . $self->get_user_agent,
+                    'user-agent=' . $self->_get_user_agent,
                     'window-size=' . $size
                 ],
                 'excludeSwitches'   => [
@@ -85,31 +85,6 @@ has _chrome_options => (
                 ]
             }
         }
-    }
-);
-
-has caps => (
-    is => 'ro',
-    lazy => 1,
-    builder => sub {
-        my ($self) = @_;
-
-        my $options;
-        if ($self->browserName =~ /chrome/i) {
-            $options = $self->_chrome_options;
-
-        }
-        elsif ($self->browserName =~ /firefox/i) {
-            $options = $self->_firefox_options;
-        }
-
-        return {
-            inner_window_size => $self->get_size_for('caps'),
-            desired_capabilities => {
-                browserName => $self->browserName,
-                %$options
-            }
-        };
     }
 );
 
@@ -131,7 +106,40 @@ has _specs => (
     }
 );
 
-sub get_user_agent {
+
+sub caps {
+    my ($self, %args) = @_;
+
+    my $options = $self->_desired_options(%args);
+
+    return {
+        inner_window_size => $self->_get_size_for('caps'),
+        desired_capabilities => {
+            browserName => $self->browserName,
+            %$options
+        }
+    };
+}
+
+sub _desired_options {
+    my ($self, %args) = @_;
+
+    my $options;
+    if ($self->_is_chrome) {
+        $options = $self->_chrome_options;
+    }
+    elsif ($self->_is_firefox) {
+        $options = $self->_firefox_options;
+
+        unless (%args && exists $args{unencoded} && $args{unencoded}) {
+            $options->{firefox_profile} = $options->{firefox_profile}->_encode;
+        }
+    }
+
+    return $options;
+}
+
+sub _get_user_agent {
     my ($self) = @_;
 
     my $specs = $self->_specs;
@@ -140,7 +148,7 @@ sub get_user_agent {
     return $specs->{$agent}->{user_agent};
 }
 
-sub get_size {
+sub _get_size {
     my ($self) = @_;
 
     my $specs = $self->_specs;
@@ -150,9 +158,9 @@ sub get_size {
     return $specs->{$agent}->{$orientation};
 }
 
-sub get_size_for {
+sub _get_size_for {
     my ($self, $format) = @_;
-    my $dim = $self->get_size;
+    my $dim = $self->_get_size;
 
     if ($format eq 'caps') {
         return [ $dim->{height}, $dim->{width} ];
@@ -160,6 +168,14 @@ sub get_size_for {
     elsif ($format eq 'chrome') {
         return $dim->{width} . ',' . $dim->{height};
     }
+}
+
+sub _is_firefox {
+    return shift->browserName =~ /firefox/i
+}
+
+sub _is_chrome {
+    return shift->browserName =~ /chrome/i
 }
 
 1;
@@ -176,7 +192,7 @@ Selenium::Remote::Driver::UserAgent - Emulate mobile devices by setting user age
 
 =head1 VERSION
 
-version 0.02
+version 0.03
 
 =head1 SYNOPSIS
 
@@ -199,6 +215,11 @@ Although the experience may not be 100% the same as manually testing
 on an actual mobile device, the advantage of testing this way is that
 you hardly need any additional infrastructure if you've already got a
 webdriver testing suite set up.
+
+NB: There is a bug in v2.42.2 of the Selenium standalone server for
+Retina displays, like on MacBook Pros: the scaling for Firefox will be
+doubled in both the width and height dimensions. You can either use an
+older version of the standalone server or wait for a new release.
 
 =head1 ATTRIBUTES
 
@@ -234,6 +255,29 @@ Usage looks like:
 
 Optional: specify the orientation of the mobile device. Your options
 are C<portrait> or C<landscape>; defaults to C<portrait>.
+
+=head1 METHODS
+
+=head2 caps
+
+Call this after initiating the ::UserAgent object to get the
+capabilities that you should pass to S::R::D's's
+L<Selenium::Remote::Driver/new_from_caps> function. This function
+returns a hashref with the following keys:
+
+=over 4
+
+=item inner_window_size - this will set the window size immediately
+after browser creation
+
+=item desired_capabilities - this will set the browserName and the
+appropriate options needed
+
+=back
+
+If you're using Firefox and you'd like to continue editing the Firefox
+profile before passing it to the Driver, pass in C<unencoded => 1>
+as the argument to this function.
 
 =head1 BUGS
 
