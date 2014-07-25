@@ -111,11 +111,11 @@ has _firefox_options => (
     builder => sub {
         my ($self) = @_;
 
-        my $dim = $self->get_size;
+        my $dim = $self->_get_size;
 
         my $profile = Selenium::Remote::Driver::Firefox::Profile->new;
         $profile->set_preference(
-            'general.useragent.override' => $self->get_user_agent
+            'general.useragent.override' => $self->_get_user_agent
         );
 
         return {
@@ -130,12 +130,12 @@ has _chrome_options => (
     builder => sub {
         my ($self) = @_;
 
-        my $size = $self->get_size_for('chrome');
+        my $size = $self->_get_size_for('chrome');
 
         return {
             chromeOptions => {
                 'args' => [
-                    'user-agent=' . $self->get_user_agent,
+                    'user-agent=' . $self->_get_user_agent,
                     'window-size=' . $size
                 ],
                 'excludeSwitches'   => [
@@ -164,7 +164,6 @@ has _specs => (
     }
 );
 
-sub get_user_agent {
 =method caps
 
 Call this after initiating the ::UserAgent object to get the
@@ -216,6 +215,7 @@ sub _desired_options {
     return $options;
 }
 
+sub _get_user_agent {
     my ($self) = @_;
 
     my $specs = $self->_specs;
@@ -224,7 +224,7 @@ sub _desired_options {
     return $specs->{$agent}->{user_agent};
 }
 
-sub get_size {
+sub _get_size {
     my ($self) = @_;
 
     my $specs = $self->_specs;
@@ -234,9 +234,9 @@ sub get_size {
     return $specs->{$agent}->{$orientation};
 }
 
-sub get_size_for {
+sub _get_size_for {
     my ($self, $format) = @_;
-    my $dim = $self->get_size;
+    my $dim = $self->_get_size;
 
     if ($format eq 'caps') {
         return [ $dim->{height}, $dim->{width} ];
@@ -244,6 +244,14 @@ sub get_size_for {
     elsif ($format eq 'chrome') {
         return $dim->{width} . ',' . $dim->{height};
     }
+}
+
+sub _is_firefox {
+    return shift->browserName =~ /firefox/i
+}
+
+sub _is_chrome {
+    return shift->browserName =~ /chrome/i
 }
 
 1;
