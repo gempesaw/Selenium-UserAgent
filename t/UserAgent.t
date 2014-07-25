@@ -13,10 +13,25 @@ my @browsers = qw/chrome firefox/;
 my @agents = qw/iphone ipad_seven ipad android_phone android_tablet/;
 my @orientations = qw/portrait landscape/;
 
+# my @browsers = qw/firefox/;
+# my @agents = qw/iphone/;
+# my @orientations = qw/landscape/;
+
 my $sock = IO::Socket::INET->new(
     PeerAddr => 'localhost',
     PeerPort => 4444
 );
+
+UNENCODED: {
+    my $dua = Selenium::Remote::Driver::UserAgent->new(
+        browserName => 'firefox',
+        agent => 'iphone'
+    );
+
+    my $caps = $dua->caps(unencoded => 1);
+    isa_ok($caps->{desired_capabilities}->{firefox_profile},
+           'Selenium::Remote::Driver::Firefox::Profile');
+}
 
 foreach my $browser (@browsers) {
     foreach my $agent (@agents) {

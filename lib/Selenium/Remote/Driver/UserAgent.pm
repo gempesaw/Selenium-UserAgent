@@ -119,7 +119,7 @@ has _firefox_options => (
         );
 
         return {
-            firefox_profile => $profile->_encode
+            firefox_profile => $profile
         };
     }
 );
@@ -146,31 +146,6 @@ has _chrome_options => (
     }
 );
 
-has caps => (
-    is => 'ro',
-    lazy => 1,
-    builder => sub {
-        my ($self) = @_;
-
-        my $options;
-        if ($self->browserName =~ /chrome/i) {
-            $options = $self->_chrome_options;
-
-        }
-        elsif ($self->browserName =~ /firefox/i) {
-            $options = $self->_firefox_options;
-        }
-
-        return {
-            inner_window_size => $self->get_size_for('caps'),
-            desired_capabilities => {
-                browserName => $self->browserName,
-                %$options
-            }
-        };
-    }
-);
-
 has _specs => (
     is => 'ro',
     builder => sub {
@@ -190,6 +165,57 @@ has _specs => (
 );
 
 sub get_user_agent {
+=method caps
+
+Call this after initiating the ::UserAgent object to get the
+capabilities that you should pass to Selenium::Remote::Driver's
+L<new_from_caps> function. This function returns a hashref with the
+following keys:
+
+* inner_window_size - this will set the window size immediately after
+  browser creation
+
+* desired_capabilities - this will set the browserName and the
+  appropriate options needed
+
+If you're using Firefox and you'd like to continue editing the Firefox
+profile before passing it to the Driver, pass in C<unencoded => 1>
+as the argument to this function.
+
+=cut
+
+sub caps {
+    my ($self, %args) = @_;
+
+    my $options = $self->_desired_options(%args);
+
+    return {
+        inner_window_size => $self->_get_size_for('caps'),
+        desired_capabilities => {
+            browserName => $self->browserName,
+            %$options
+        }
+    };
+}
+
+sub _desired_options {
+    my ($self, %args) = @_;
+
+    my $options;
+    if ($self->_is_chrome) {
+        $options = $self->_chrome_options;
+    }
+    elsif ($self->_is_firefox) {
+        $options = $self->_firefox_options;
+
+        unless (%args && exists $args{unencoded} && $args{unencoded}) {
+            $options->{firefox_profile} = $options->{firefox_profile}->_encode;
+        }
+    }
+
+    return $options;
+}
+
     my ($self) = @_;
 
     my $specs = $self->_specs;
