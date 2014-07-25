@@ -167,15 +167,19 @@ has _specs => (
 =method caps
 
 Call this after initiating the ::UserAgent object to get the
-capabilities that you should pass to Selenium::Remote::Driver's
-L<new_from_caps> function. This function returns a hashref with the
-following keys:
+capabilities that you should pass to S::R::D's's
+L<Selenium::Remote::Driver/new_from_caps> function. This function
+returns a hashref with the following keys:
 
-* inner_window_size - this will set the window size immediately after
-  browser creation
+=over 4
 
-* desired_capabilities - this will set the browserName and the
-  appropriate options needed
+=item inner_window_size - this will set the window size immediately
+after browser creation
+
+=item desired_capabilities - this will set the browserName and the
+appropriate options needed
+
+=back
 
 If you're using Firefox and you'd like to continue editing the Firefox
 profile before passing it to the Driver, pass in C<unencoded => 1>
