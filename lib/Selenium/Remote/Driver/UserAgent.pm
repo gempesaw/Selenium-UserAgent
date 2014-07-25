@@ -31,6 +31,11 @@ on an actual mobile device, the advantage of testing this way is that
 you hardly need any additional infrastructure if you've already got a
 webdriver testing suite set up.
 
+NB: There is a bug in v2.42.2 of the Selenium standalone server for
+Retina displays, like on MacBook Pros: the scaling for Firefox will be
+doubled in both the width and height dimensions. You can either use an
+older version of the standalone server or wait for a new release.
+
 =attr browserName
 
 Required: specify which browser type to use. Currently, we only
