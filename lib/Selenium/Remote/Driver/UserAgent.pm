@@ -88,7 +88,7 @@ has agent => (
 
         my @valid = qw/iphone ipad_seven ipad android_phone android_tablet/;
 
-        croak 'invalid agent' unless grep { $_ eq $agent } @valid;
+        croak 'invalid agent: "' . $agent . '"' unless grep { $_ eq $agent } @valid;
         return $agent;
     }
 );
