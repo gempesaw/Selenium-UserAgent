@@ -8,8 +8,8 @@ META.yml
 Makefile.PL
 cpanfile
 dist.ini
-lib/Selenium/Remote/Driver/UserAgent.pm
-lib/Selenium/Remote/Driver/devices.json
+lib/Selenium/UserAgent.pm
+lib/Selenium/devices.json
 t/UserAgent.t
 t/invalid.t
 weaver.ini

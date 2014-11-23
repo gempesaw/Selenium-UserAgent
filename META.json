@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
    },
-   "name" : "Selenium-Remote-Driver-UserAgent",
+   "name" : "Selenium-UserAgent",
    "prereqs" : {
       "configure" : {
          "requires" : {
@@ -32,9 +32,7 @@
             "Cwd" : "0",
             "JSON" : "0",
             "Moo" : "0",
-            "Selenium::Remote::Driver::Firefox::Profile" : "0",
-            "strict" : "0",
-            "warnings" : "0"
+            "Selenium::Remote::Driver::Firefox::Profile" : "0"
          }
       },
       "test" : {
@@ -42,21 +40,23 @@
             "IO::Socket::INET" : "0",
             "Selenium::Remote::Driver" : "0.2102",
             "Test::More" : "0",
-            "Test::ParallelSubtest" : "0"
+            "Test::ParallelSubtest" : "0",
+            "strict" : "0",
+            "warnings" : "0"
          }
       }
    },
    "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://github.com/gempesaw/Selenium-Remote-Driver-UserAgent/issues"
+         "web" : "https://github.com/gempesaw/Selenium-UserAgent/issues"
       },
       "repository" : {
          "type" : "git",
-         "url" : "git://github.com/gempesaw/Selenium-Remote-Driver-UserAgent.git",
-         "web" : "https://github.com/gempesaw/Selenium-Remote-Driver-UserAgent"
+         "url" : "git://github.com/gempesaw/Selenium-UserAgent.git",
+         "web" : "https://github.com/gempesaw/Selenium-UserAgent"
       }
    },
-   "version" : "0.03"
+   "version" : "0.04"
 }
 

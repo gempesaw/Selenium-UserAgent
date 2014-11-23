@@ -16,26 +16,26 @@ my %WriteMakefileArgs = (
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.30"
   },
-  "DISTNAME" => "Selenium-Remote-Driver-UserAgent",
+  "DISTNAME" => "Selenium-UserAgent",
   "EXE_FILES" => [],
   "LICENSE" => "perl",
-  "NAME" => "Selenium::Remote::Driver::UserAgent",
+  "NAME" => "Selenium::UserAgent",
   "PREREQ_PM" => {
     "Carp" => 0,
     "Cwd" => 0,
     "JSON" => 0,
     "Moo" => 0,
-    "Selenium::Remote::Driver::Firefox::Profile" => 0,
-    "strict" => 0,
-    "warnings" => 0
+    "Selenium::Remote::Driver::Firefox::Profile" => 0
   },
   "TEST_REQUIRES" => {
     "IO::Socket::INET" => 0,
     "Selenium::Remote::Driver" => "0.2102",
     "Test::More" => 0,
-    "Test::ParallelSubtest" => 0
+    "Test::ParallelSubtest" => 0,
+    "strict" => 0,
+    "warnings" => 0
   },
-  "VERSION" => "0.03",
+  "VERSION" => "0.04",
   "test" => {
     "TESTS" => "t/*.t"
   }

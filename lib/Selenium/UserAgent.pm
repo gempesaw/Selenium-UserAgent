@@ -1,7 +1,5 @@
-use strict;
-use warnings;
-package Selenium::Remote::Driver::UserAgent;
-$Selenium::Remote::Driver::UserAgent::VERSION = '0.03';
+package Selenium::UserAgent;
+$Selenium::UserAgent::VERSION = '0.04';
 # ABSTRACT: Emulate mobile devices by setting user agents when using webdriver
 use Moo;
 use JSON;
@@ -31,7 +29,7 @@ has agent => (
 
         my @valid = qw/iphone ipad_seven ipad android_phone android_tablet/;
 
-        croak 'invalid agent' unless grep { $_ eq $agent } @valid;
+        croak 'invalid agent: "' . $agent . '"' unless grep { $_ eq $agent } @valid;
         return $agent;
     }
 );
@@ -188,20 +186,20 @@ __END__
 
 =head1 NAME
 
-Selenium::Remote::Driver::UserAgent - Emulate mobile devices by setting user agents when using webdriver
+Selenium::UserAgent - Emulate mobile devices by setting user agents when using webdriver
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 SYNOPSIS
 
-    my $dua = Selenium::Remote::Driver::UserAgent->new(
+    my $sua = Selenium::UserAgent->new(
         browserName => 'chrome',
         agent => 'iphone'
     );
 
-    my $caps = $dua->caps;
+    my $caps = $sua->caps;
     my $driver = Selenium::Remote::Driver->new_from_caps(%$caps);
 
 =head1 DESCRIPTION
@@ -228,7 +226,7 @@ older version of the standalone server or wait for a new release.
 Required: specify which browser type to use. Currently, we only
 support C<Chrome> and C<Firefox>.
 
-    my $dua = Selenium::Remote::Driver::UserAgent->new(
+    my $sua = Selenium::UserAgent->new(
         browserName => 'chrome',
         agent => 'ipad'
     );
@@ -246,7 +244,7 @@ are:
 
 Usage looks like:
 
-    my $dua = Selenium::Remote::Driver::UserAgent->new(
+    my $sua = Selenium::UserAgent->new(
         browserName => 'chrome',
         agent => 'ipad_seven'
     );
@@ -261,28 +259,50 @@ are C<portrait> or C<landscape>; defaults to C<portrait>.
 =head2 caps
 
 Call this after initiating the ::UserAgent object to get the
-capabilities that you should pass to S::R::D's's
-L<Selenium::Remote::Driver/new_from_caps> function. This function
-returns a hashref with the following keys:
+capabilities that you should pass to
+L<Selenium::Remote::Driver/new_from_caps>. This function returns a
+hashref with the following keys:
 
 =over 4
 
-=item inner_window_size - this will set the window size immediately
-after browser creation
+=item inner_window_size
 
-=item desired_capabilities - this will set the browserName and the
-appropriate options needed
+This will set the window size immediately after browser creation.
+
+=item desired_capabilities
+
+This will set the browserName and the appropriate options needed.
 
 =back
 
 If you're using Firefox and you'd like to continue editing the Firefox
-profile before passing it to the Driver, pass in C<unencoded => 1>
+profile before passing it to the Driver, pass in C<< unencoded => 1 >>
 as the argument to this function.
+
+=head1 SEE ALSO
+
+Please see those modules/websites for more information related to this module.
+
+=over 4
+
+=item *
+
+L<Selenium::Remote::Driver|Selenium::Remote::Driver>
+
+=item *
+
+L<Selenium::Remote::Driver::Firefox::Profile|Selenium::Remote::Driver::Firefox::Profile>
+
+=item *
+
+L<https://github.com/alisterscott/webdriver-user-agent|https://github.com/alisterscott/webdriver-user-agent>
+
+=back
 
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/gempesaw/Selenium-Remote-Driver-UserAgent/issues
+https://github.com/gempesaw/Selenium-UserAgent/issues
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
@@ -291,5 +311,12 @@ feature.
 =head1 AUTHOR
 
 Daniel Gempesaw <gempesaw@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Daniel Gempesaw.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
