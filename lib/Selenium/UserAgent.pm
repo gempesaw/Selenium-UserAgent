@@ -9,12 +9,12 @@ use Selenium::Remote::Driver::Firefox::Profile;
 
 =head1 SYNOPSIS
 
-    my $dua = Selenium::UserAgent->new(
+    my $sua = Selenium::UserAgent->new(
         browserName => 'chrome',
         agent => 'iphone'
     );
 
-    my $caps = $dua->caps;
+    my $caps = $sua->caps;
     my $driver = Selenium::Remote::Driver->new_from_caps(%$caps);
 
 =head1 DESCRIPTION
@@ -39,7 +39,7 @@ older version of the standalone server or wait for a new release.
 Required: specify which browser type to use. Currently, we only
 support C<Chrome> and C<Firefox>.
 
-    my $dua = Selenium::UserAgent->new(
+    my $sua = Selenium::UserAgent->new(
         browserName => 'chrome',
         agent => 'ipad'
     );
@@ -71,7 +71,7 @@ are:
 
 Usage looks like:
 
-    my $dua = Selenium::UserAgent->new(
+    my $sua = Selenium::UserAgent->new(
         browserName => 'chrome',
         agent => 'ipad_seven'
     );
