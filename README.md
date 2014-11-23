@@ -1,6 +1,6 @@
 # NAME
 
-Selenium::Remote::Driver::UserAgent - Emulate mobile devices by setting user agents when using webdriver
+Selenium::UserAgent - Emulate mobile devices by setting user agents when using webdriver
 
 # VERSION
 
@@ -8,7 +8,7 @@ version 0.04
 
 # SYNOPSIS
 
-    my $dua = Selenium::Remote::Driver::UserAgent->new(
+    my $dua = Selenium::UserAgent->new(
         browserName => 'chrome',
         agent => 'iphone'
     );
@@ -40,7 +40,7 @@ older version of the standalone server or wait for a new release.
 Required: specify which browser type to use. Currently, we only
 support `Chrome` and `Firefox`.
 
-    my $dua = Selenium::Remote::Driver::UserAgent->new(
+    my $dua = Selenium::UserAgent->new(
         browserName => 'chrome',
         agent => 'ipad'
     );
@@ -58,7 +58,7 @@ are:
 
 Usage looks like:
 
-    my $dua = Selenium::Remote::Driver::UserAgent->new(
+    my $dua = Selenium::UserAgent->new(
         browserName => 'chrome',
         agent => 'ipad_seven'
     );

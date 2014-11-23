@@ -7,7 +7,7 @@ use Test::More;
 use IO::Socket::INET;
 use Test::ParallelSubtest max_parallel => 5;
 use Selenium::Remote::Driver 0.2102;
-use Selenium::Remote::Driver::UserAgent;
+use Selenium::UserAgent;
 
 my @browsers = qw/chrome firefox/;
 my @agents = qw/iphone ipad_seven ipad android_phone android_tablet/;
@@ -23,7 +23,7 @@ my $sock = IO::Socket::INET->new(
 );
 
 UNENCODED: {
-    my $dua = Selenium::Remote::Driver::UserAgent->new(
+    my $dua = Selenium::UserAgent->new(
         browserName => 'firefox',
         agent => 'iphone'
     );
@@ -38,7 +38,7 @@ foreach my $browser (@browsers) {
         foreach my $orientation (@orientations) {
             my $test_prefix = join(', ', ($browser, $agent, $orientation));
             bg_subtest $test_prefix => sub {
-                my $dua = Selenium::Remote::Driver::UserAgent->new(
+                my $dua = Selenium::UserAgent->new(
                     browserName => $browser,
                     agent => $agent,
                     orientation => $orientation
