@@ -10,32 +10,32 @@ use ExtUtils::MakeMaker 6.30;
 
 
 my %WriteMakefileArgs = (
-  "ABSTRACT" => "Emulate mobile devices by setting user agents when using webdriver",
+  "ABSTRACT" => "(DEPRECATED) Use Selenium::UserAgent instead",
   "AUTHOR" => "Daniel Gempesaw <gempesaw\@gmail.com>",
   "BUILD_REQUIRES" => {},
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.30"
   },
-  "DISTNAME" => "Selenium-UserAgent",
+  "DISTNAME" => "Selenium-Remote-Driver-UserAgent",
   "EXE_FILES" => [],
   "LICENSE" => "perl",
-  "NAME" => "Selenium::UserAgent",
+  "NAME" => "Selenium::Remote::Driver::UserAgent",
   "PREREQ_PM" => {
     "Carp" => 0,
     "Cwd" => 0,
     "JSON" => 0,
     "Moo" => 0,
-    "Selenium::Remote::Driver::Firefox::Profile" => 0
+    "Selenium::Remote::Driver::Firefox::Profile" => 0,
+    "strict" => 0,
+    "warnings" => 0
   },
   "TEST_REQUIRES" => {
     "IO::Socket::INET" => 0,
     "Selenium::Remote::Driver" => "0.2102",
     "Test::More" => 0,
-    "Test::ParallelSubtest" => 0,
-    "strict" => 0,
-    "warnings" => 0
+    "Test::ParallelSubtest" => 0
   },
-  "VERSION" => "0.04",
+  "VERSION" => "0.0301",
   "test" => {
     "TESTS" => "t/*.t"
   }

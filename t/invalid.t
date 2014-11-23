@@ -3,10 +3,10 @@
 use strict;
 use warnings;
 use Test::More;
-use Selenium::UserAgent;
+use Selenium::Remote::Driver::UserAgent;
 
 eval {
-    my $bad = Selenium::UserAgent->new(
+    my $bad = Selenium::Remote::Driver::UserAgent->new(
         browserName => 'invalid',
         agent => 'iphone'
     );
@@ -15,7 +15,7 @@ eval {
 ok( $@ =~ /coercion.*failed/, 'browser name is coerced');
 
 eval {
-    my $bad = Selenium::UserAgent->new(
+    my $bad = Selenium::Remote::Driver::UserAgent->new(
         browserName => 'chrome',
         agent => 'invalid'
     );
@@ -24,7 +24,7 @@ eval {
 ok( $@ =~ /coercion.*failed/, 'agent is coerced');
 
 eval {
-    my $bad = Selenium::UserAgent->new(
+    my $bad = Selenium::Remote::Driver::UserAgent->new(
         browserName => 'chrome',
         agent => 'iphone',
         orientation => 'invalid'
