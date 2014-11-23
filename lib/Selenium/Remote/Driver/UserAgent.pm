@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Selenium::Remote::Driver::UserAgent;
 
-# ABSTRACT: Emulate mobile devices by setting user agents when using webdriver
+# ABSTRACT: (DEPRECATED) Use Selenium::UserAgent instead
 use Moo;
 use JSON;
 use Cwd qw/abs_path/;
@@ -20,6 +20,10 @@ use Selenium::Remote::Driver::Firefox::Profile;
     my $driver = Selenium::Remote::Driver->new_from_caps(%$caps);
 
 =head1 DESCRIPTION
+
+DEPRECATED! This module has been renamed to L<Selenium::UserAgent>,
+and future development will take place there. This module will
+eventually be deleted from the CPAN.
 
 This package will help you test your websites on mobile devices by
 convincing your browsers to masquerade as a mobile device. You can

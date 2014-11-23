@@ -1,10 +1,10 @@
 # NAME
 
-Selenium::Remote::Driver::UserAgent - Emulate mobile devices by setting user agents when using webdriver
+Selenium::Remote::Driver::UserAgent - (DEPRECATED) Use Selenium::UserAgent instead
 
 # VERSION
 
-version 0.03
+version 0.0301
 
 # SYNOPSIS
 
@@ -17,6 +17,10 @@ version 0.03
     my $driver = Selenium::Remote::Driver->new_from_caps(%$caps);
 
 # DESCRIPTION
+
+DEPRECATED! This module has been renamed to [Selenium::UserAgent](https://metacpan.org/pod/Selenium::UserAgent),
+and future development will take place there. This module will
+eventually be deleted from the CPAN.
 
 This package will help you test your websites on mobile devices by
 convincing your browsers to masquerade as a mobile device. You can
