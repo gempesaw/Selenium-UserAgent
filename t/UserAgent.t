@@ -99,6 +99,4 @@ sub validate_caps_structure {
     cmp_ok($size->[0], $cmp, $size->[1], 'window size: correct order');
 }
 
-
-
 done_testing;
