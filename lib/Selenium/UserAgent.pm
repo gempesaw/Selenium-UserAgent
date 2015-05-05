@@ -140,9 +140,6 @@ has _chrome_options => (
                 'args' => [
                     'user-agent=' . $self->_get_user_agent,
                     'window-size=' . $size
-                ],
-                'excludeSwitches'   => [
-                    'ignore-certificate-errors'
                 ]
             }
         }
