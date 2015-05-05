@@ -7,7 +7,7 @@ use Test::More;
 use IO::Socket::INET;
 use Test::ParallelSubtest max_parallel => 5;
 use Selenium::Remote::Driver 0.2102;
-use Selenium::Remote::Driver::UserAgent;
+use Selenium::UserAgent;
 
 my @browsers = qw/chrome firefox/;
 my @agents = qw/iphone ipad_seven ipad android_phone android_tablet/;
@@ -23,12 +23,12 @@ my $sock = IO::Socket::INET->new(
 );
 
 UNENCODED: {
-    my $dua = Selenium::Remote::Driver::UserAgent->new(
+    my $sua = Selenium::UserAgent->new(
         browserName => 'firefox',
         agent => 'iphone'
     );
 
-    my $caps = $dua->caps(unencoded => 1);
+    my $caps = $sua->caps(unencoded => 1);
     isa_ok($caps->{desired_capabilities}->{firefox_profile},
            'Selenium::Remote::Driver::Firefox::Profile');
 }
@@ -38,13 +38,13 @@ foreach my $browser (@browsers) {
         foreach my $orientation (@orientations) {
             my $test_prefix = join(', ', ($browser, $agent, $orientation));
             bg_subtest $test_prefix => sub {
-                my $dua = Selenium::Remote::Driver::UserAgent->new(
+                my $sua = Selenium::UserAgent->new(
                     browserName => $browser,
                     agent => $agent,
                     orientation => $orientation
                 );
 
-                my $caps = $dua->caps;
+                my $caps = $sua->caps;
                 validate_caps_structure($caps, $browser, $orientation);
 
               SKIP: {
@@ -68,8 +68,8 @@ foreach my $browser (@browsers) {
                     my $expected_agent = $agent;
                     $expected_agent =~ s/_.*//;
                     cmp_ok($details->{agent} , '=~', qr/$expected_agent/i, 'user agent includes ' . $agent);
-                    cmp_ok($details->{width} , '==', $dua->_get_size->{width}, 'width is correct.');
-                    cmp_ok($details->{height}, '==', $dua->_get_size->{height} , 'height is correct.');
+                    cmp_ok($details->{width} , '==', $sua->_get_size->{width}, 'width is correct.');
+                    cmp_ok($details->{height}, '==', $sua->_get_size->{height} , 'height is correct.');
                 }
             };
 
@@ -98,7 +98,5 @@ sub validate_caps_structure {
     my $cmp = $orientation eq 'portrait' ? '>' : '<';
     cmp_ok($size->[0], $cmp, $size->[1], 'window size: correct order');
 }
-
-
 
 done_testing;
