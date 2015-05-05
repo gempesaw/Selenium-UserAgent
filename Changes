@@ -1,5 +1,8 @@
 Revision history for perl module Selenium::UserAgent
 
+0.05 2014-05-05
+ - Stop excluding passing certificate error switch
+
 0.04 2014-11-23
  - Rename module to Selenium::UserAgent. This is of course a breaking
    change.
