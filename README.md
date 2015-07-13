@@ -4,7 +4,7 @@ Selenium::UserAgent - Emulate mobile devices by setting user agents when using w
 
 # VERSION
 
-version 0.05
+version 0.06
 
 # SYNOPSIS
 
@@ -94,7 +94,7 @@ as the argument to this function.
 Please see those modules/websites for more information related to this module.
 
 - [Selenium::Remote::Driver](https://metacpan.org/pod/Selenium::Remote::Driver)
-- [Selenium::Remote::Driver::Firefox::Profile](https://metacpan.org/pod/Selenium::Remote::Driver::Firefox::Profile)
+- [Selenium::Firefox::Profile](https://metacpan.org/pod/Selenium::Firefox::Profile)
 - [https://github.com/alisterscott/webdriver-user-agent](https://github.com/alisterscott/webdriver-user-agent)
 
 # BUGS

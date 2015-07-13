@@ -2,7 +2,7 @@ requires "Carp" => "0";
 requires "Cwd" => "0";
 requires "JSON" => "0";
 requires "Moo" => "0";
-requires "Selenium::Remote::Driver::Firefox::Profile" => "0";
+requires "Selenium::Firefox::Profile" => "0";
 
 on 'test' => sub {
   requires "IO::Socket::INET" => "0";
