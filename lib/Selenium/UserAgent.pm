@@ -8,6 +8,8 @@ use Carp qw/croak/;
 use List::Util qw/any/;
 use Selenium::Firefox::Profile;
 
+=for markdown [![Build Status](https://travis-ci.org/gempesaw/Selenium-UserAgent.svg?branch=master)](https://travis-ci.org/gempesaw/Selenium-UserAgent)
+
 =head1 SYNOPSIS
 
     my $sua = Selenium::UserAgent->new(

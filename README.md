@@ -2,6 +2,8 @@
 
 Selenium::UserAgent - Emulate mobile devices by setting user agents when using webdriver
 
+[![Build Status](https://travis-ci.org/gempesaw/Selenium-UserAgent.svg?branch=master)](https://travis-ci.org/gempesaw/Selenium-UserAgent)
+
 # VERSION
 
 version 0.06
