@@ -62,12 +62,12 @@
     "ipad": {
         "user_agent": "Mozilla/5.0 (iPad; CPU OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53",
         "portrait": {
-            "width": 768,
-            "height": 1024
+            "height": 1024,
+            "width": 768
         },
         "landscape": {
-            "width": 1024,
-            "height": 768
+            "height": 768,
+            "width": 1024
         }
     },
 
