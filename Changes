@@ -1,5 +1,10 @@
 Revision history for perl module Selenium::UserAgent
 
+0.06 2015-07-13
+ - Add new device candidates with specific types
+ - Deprecate almost all of the old device candidates
+ - Tests: Add workaround for Firefox not getting smaller than 335px
+
 0.05 2014-05-05
  - Stop excluding passing certificate error switch
 
