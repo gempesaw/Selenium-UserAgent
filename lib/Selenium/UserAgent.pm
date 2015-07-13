@@ -5,6 +5,7 @@ use Moo;
 use JSON;
 use Cwd qw/abs_path/;
 use Carp qw/croak/;
+use List::Util qw/any/;
 use Selenium::Firefox::Profile;
 
 =head1 SYNOPSIS
@@ -63,11 +64,18 @@ has browserName => (
 Required: specify which mobile device type to emulate. Your options
 are:
 
-    iphone
-    ipad_seven
+    iphone4
+    iphone5
+    iphone6
+    iphone6plus
+    ipad_mini
     ipad
-    android_phone
-    android_tablet
+    galaxy_s3
+    galaxy_s4
+    galaxy_s5
+    galaxy_note3
+    nexus4
+    nexus10
 
 These are more specific than the choices for device agent in previous
 versions of this module, but to preserve existing functionality, the
@@ -97,7 +105,32 @@ has agent => (
     coerce => sub {
         my $agent = $_[0];
 
-        my @valid = qw/iphone ipad_seven ipad android_phone android_tablet/;
+        my @valid = qw/
+                          iphone4
+                          iphone5
+                          iphone6
+                          iphone6plus
+                          ipad_mini
+                          ipad
+                          galaxy_s3
+                          galaxy_s4
+                          galaxy_s5
+                          galaxy_note3
+                          nexus4
+                          nexus10
+                      /;
+
+        my $updated_agent = _convert_deprecated_agent( $agent );
+
+        if (any { $_ eq $updated_agent } @valid) {
+            return $updated_agent;
+        }
+        else {
+            croak 'invalid agent: "' . $agent . '"';
+        }
+    }
+);
+
 sub _convert_deprecated_agent {
     my ($agent) = @_;
 

@@ -1,6 +1,7 @@
 requires "Carp" => "0";
 requires "Cwd" => "0";
 requires "JSON" => "0";
+requires "List::Util" => "0";
 requires "Moo" => "0";
 requires "Selenium::Firefox::Profile" => "0";
 
