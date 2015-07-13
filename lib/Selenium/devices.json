@@ -48,27 +48,27 @@
     },
 
 
-    "android_phone": {
-        "user_agent": "Mozilla/5.0 (Linux; U; Android 4.0.1; en-us; sdk Build/ICS_MR0) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30",
+    "nexus4": {
+        "user_agent": "Mozilla/5.0 (Linux; Android 4.4.4; en-us; Nexus 4 Build/JOP40D) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2307.2 Mobile Safari/537.36",
         "portrait": {
-            "width": 320,
-            "height": 356
+            "height": 640,
+            "width": 384
         },
         "landscape": {
-            "width": 480,
-            "height": 196
+            "height": 384,
+            "width": 640
         }
     },
 
-    "android_tablet": {
-        "user_agent": "Mozilla/5.0 (Linux; U; Android 3.0; en-us; GT-P7100 Build/HRI83) AppleWebkit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13",
+    "nexus10": {
+        "user_agent": "Mozilla/5.0 (Linux; Android 4.3; Nexus 10 Build/JSS15Q) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2307.2 Mobile Safari/537.36",
         "portrait": {
-            "width": 768,
-            "height": 946
+            "height": 800,
+            "width": 1280
         },
         "landscape": {
-            "width": 1024,
-            "height": 690
+            "height": 1280,
+            "width": 800
         }
     }
 }
