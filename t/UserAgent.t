@@ -10,7 +10,13 @@ use Selenium::Remote::Driver 0.2102;
 use Selenium::UserAgent;
 
 my @browsers = qw/chrome firefox/;
-my @agents = qw/iphone ipad_seven ipad android_phone android_tablet/;
+
+my @agents = qw/iphone ipad_seven ipad android_phone android_tablet
+                iphone4 iphone5 iphone6 iphone6plus ipad_mini ipad
+                galaxy_s3 galaxy_s4 galaxy_s5 galaxy_note3
+                nexus4 nexus10
+               /;
+
 my @orientations = qw/portrait landscape/;
 
 # my @browsers = qw/firefox/;
