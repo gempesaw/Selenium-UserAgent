@@ -23,9 +23,10 @@ my @orientations = qw/portrait landscape/;
 # my @agents = qw/iphone/;
 # my @orientations = qw/landscape/;
 
-my $sock = IO::Socket::INET->new(
+my $has_local_webdriver_server = IO::Socket::INET->new(
     PeerAddr => 'localhost',
-    PeerPort => 4444
+    PeerPort => 4444,
+    Timeout => 5
 );
 
 UNENCODED: {
@@ -55,7 +56,8 @@ foreach my $browser (@browsers) {
 
               SKIP: {
                     skip 'Release tests not required for installation', 4 unless $ENV{RELEASE_TESTING};
-                    skip 'remote driver server not found', 4 unless defined $sock;
+                    skip 'remote driver server not found', 4
+                      unless $has_local_webdriver_server;
 
                     my $driver = Selenium::Remote::Driver->new_from_caps(%$caps);
                     my $actual_caps = $driver->get_capabilities;

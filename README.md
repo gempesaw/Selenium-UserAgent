@@ -50,17 +50,36 @@ support `Chrome` and `Firefox`.
 Required: specify which mobile device type to emulate. Your options
 are:
 
-    iphone
-    ipad_seven
+    iphone4
+    iphone5
+    iphone6
+    iphone6plus
+    ipadmini
     ipad
-    android_phone
-    android_tablet
+    galaxy_s3
+    galaxy_s4
+    galaxy_s5
+    nexus4
+    nexus5
+
+These are more specific than the choices for device agent in previous
+versions of this module, but to preserve existing functionality, the
+following conversions are made to the deprecated device selections:
+
+    iphone         => "iphone4"
+    ipad_seven     => "ipad"
+    android_phone  => "nexus4"
+    android_tablet => "nexus10"
+
+The exact resolutions and user agents are included in the source and
+in the [github
+repo](https://github.com/gempesaw/Selenium-UserAgent/blob/master/lib/Selenium/devices.json).
 
 Usage looks like:
 
     my $sua = Selenium::UserAgent->new(
         browserName => 'chrome',
-        agent => 'ipad_seven'
+        agent => 'ipad'
     );
 
 ## orientation
