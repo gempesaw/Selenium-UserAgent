@@ -30,7 +30,7 @@ UNENCODED: {
 
     my $caps = $sua->caps(unencoded => 1);
     isa_ok($caps->{desired_capabilities}->{firefox_profile},
-           'Selenium::Remote::Driver::Firefox::Profile');
+           'Selenium::Firefox::Profile');
 }
 
 foreach my $browser (@browsers) {

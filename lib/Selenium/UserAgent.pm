@@ -5,7 +5,7 @@ use Moo;
 use JSON;
 use Cwd qw/abs_path/;
 use Carp qw/croak/;
-use Selenium::Remote::Driver::Firefox::Profile;
+use Selenium::Firefox::Profile;
 
 =head1 SYNOPSIS
 
@@ -116,7 +116,7 @@ has _firefox_options => (
 
         my $dim = $self->_get_size;
 
-        my $profile = Selenium::Remote::Driver::Firefox::Profile->new;
+        my $profile = Selenium::Firefox::Profile->new;
         $profile->set_preference(
             'general.useragent.override' => $self->_get_user_agent
         );
@@ -265,7 +265,7 @@ sub _is_chrome {
 =head1 SEE ALSO
 
 Selenium::Remote::Driver
-Selenium::Remote::Driver::Firefox::Profile
+Selenium::Firefox::Profile
 https://github.com/alisterscott/webdriver-user-agent
 
 =cut
