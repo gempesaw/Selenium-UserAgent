@@ -4,9 +4,9 @@
       "Daniel Gempesaw <gempesaw@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 5.031, CPAN::Meta::Converter version 2.143240",
+   "generated_by" : "Dist::Zilla version 5.036, CPAN::Meta::Converter version 2.143240",
    "license" : [
-      "perl_5"
+      "mit"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
@@ -31,8 +31,9 @@
             "Carp" : "0",
             "Cwd" : "0",
             "JSON" : "0",
+            "List::Util" : "0",
             "Moo" : "0",
-            "Selenium::Remote::Driver::Firefox::Profile" : "0"
+            "Selenium::Firefox::Profile" : "0"
          }
       },
       "test" : {
@@ -51,12 +52,13 @@
       "bugtracker" : {
          "web" : "https://github.com/gempesaw/Selenium-UserAgent/issues"
       },
+      "homepage" : "https://github.com/gempesaw/Selenium-UserAgent",
       "repository" : {
          "type" : "git",
-         "url" : "git://github.com/gempesaw/Selenium-UserAgent.git",
+         "url" : "https://github.com/gempesaw/Selenium-UserAgent.git",
          "web" : "https://github.com/gempesaw/Selenium-UserAgent"
       }
    },
-   "version" : "0.05"
+   "version" : "0.06"
 }
 

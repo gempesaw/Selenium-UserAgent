@@ -1,11 +1,12 @@
 package Selenium::UserAgent;
-$Selenium::UserAgent::VERSION = '0.05';
+$Selenium::UserAgent::VERSION = '0.06';
 # ABSTRACT: Emulate mobile devices by setting user agents when using webdriver
 use Moo;
 use JSON;
 use Cwd qw/abs_path/;
 use Carp qw/croak/;
-use Selenium::Remote::Driver::Firefox::Profile;
+use List::Util qw/any/;
+use Selenium::Firefox::Profile;
 
 
 has browserName => (
@@ -27,12 +28,51 @@ has agent => (
     coerce => sub {
         my $agent = $_[0];
 
-        my @valid = qw/iphone ipad_seven ipad android_phone android_tablet/;
+        my @valid = qw/
+                          iphone4
+                          iphone5
+                          iphone6
+                          iphone6plus
+                          ipad_mini
+                          ipad
+                          galaxy_s3
+                          galaxy_s4
+                          galaxy_s5
+                          galaxy_note3
+                          nexus4
+                          nexus10
+                      /;
 
-        croak 'invalid agent: "' . $agent . '"' unless grep { $_ eq $agent } @valid;
-        return $agent;
+        my $updated_agent = _convert_deprecated_agent( $agent );
+
+        if (any { $_ eq $updated_agent } @valid) {
+            return $updated_agent;
+        }
+        else {
+            croak 'invalid agent: "' . $agent . '"';
+        }
     }
 );
+
+sub _convert_deprecated_agent {
+    my ($agent) = @_;
+
+    my %deprecated = (
+        iphone => 'iphone4',
+        ipad_seven => 'ipad',
+        android_phone => 'nexus4',
+        android_tablet => 'nexus10'
+    );
+
+    if ( exists $deprecated{ $agent }) {
+        # Attempt to return the updated agent key as of v0.06 that will be able to
+        # pass the coercion
+        return $deprecated{ $agent };
+    }
+    else {
+        return $agent;
+    }
+}
 
 
 has orientation => (
@@ -53,7 +93,7 @@ has _firefox_options => (
 
         my $dim = $self->_get_size;
 
-        my $profile = Selenium::Remote::Driver::Firefox::Profile->new;
+        my $profile = Selenium::Firefox::Profile->new;
         $profile->set_preference(
             'general.useragent.override' => $self->_get_user_agent
         );
@@ -185,9 +225,11 @@ __END__
 
 Selenium::UserAgent - Emulate mobile devices by setting user agents when using webdriver
 
+=for markdown [![Build Status](https://travis-ci.org/gempesaw/Selenium-UserAgent.svg?branch=master)](https://travis-ci.org/gempesaw/Selenium-UserAgent)
+
 =head1 VERSION
 
-version 0.05
+version 0.06
 
 =head1 SYNOPSIS
 
@@ -233,17 +275,37 @@ support C<Chrome> and C<Firefox>.
 Required: specify which mobile device type to emulate. Your options
 are:
 
-    iphone
-    ipad_seven
+    iphone4
+    iphone5
+    iphone6
+    iphone6plus
+    ipad_mini
     ipad
-    android_phone
-    android_tablet
+    galaxy_s3
+    galaxy_s4
+    galaxy_s5
+    galaxy_note3
+    nexus4
+    nexus10
+
+These are more specific than the choices for device agent in previous
+versions of this module, but to preserve existing functionality, the
+following conversions are made to the deprecated device selections:
+
+    iphone         => "iphone4"
+    ipad_seven     => "ipad"
+    android_phone  => "nexus4"
+    android_tablet => "nexus10"
+
+The exact resolutions and user agents are included in the source and
+in the L<github
+repo|https://github.com/gempesaw/Selenium-UserAgent/blob/master/lib/Selenium/devices.json>.
 
 Usage looks like:
 
     my $sua = Selenium::UserAgent->new(
         browserName => 'chrome',
-        agent => 'ipad_seven'
+        agent => 'ipad'
     );
 
 =head2 orientation
@@ -288,7 +350,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 
 =item *
 
-L<Selenium::Remote::Driver::Firefox::Profile|Selenium::Remote::Driver::Firefox::Profile>
+L<Selenium::Firefox::Profile|Selenium::Firefox::Profile>
 
 =item *
 
@@ -311,9 +373,10 @@ Daniel Gempesaw <gempesaw@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Daniel Gempesaw.
+This software is Copyright (c) 2014 by Daniel Gempesaw.
 
-This is free software; you can redistribute it and/or modify it under
-the same terms as the Perl 5 programming language system itself.
+This is free software, licensed under:
+
+  The MIT (X11) License
 
 =cut
