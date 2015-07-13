@@ -47,6 +47,17 @@
         }
     },
 
+    "galaxy_note3": {
+        "user_agent": "Mozilla/5.0 (Linux; U; Android 4.3; en-us; SM-N900T Build/JSS15J) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30",
+        "portrait": {
+            "height": 640,
+            "width": 360
+        },
+        "landscape": {
+            "height": 360,
+            "width": 640
+        }
+    },
 
     "nexus4": {
         "user_agent": "Mozilla/5.0 (Linux; Android 4.4.4; en-us; Nexus 4 Build/JOP40D) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2307.2 Mobile Safari/537.36",
