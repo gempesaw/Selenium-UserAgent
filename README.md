@@ -54,13 +54,14 @@ are:
     iphone5
     iphone6
     iphone6plus
-    ipadmini
+    ipad_mini
     ipad
     galaxy_s3
     galaxy_s4
     galaxy_s5
+    galaxy_note3
     nexus4
-    nexus5
+    nexus10
 
 These are more specific than the choices for device agent in previous
 versions of this module, but to preserve existing functionality, the
