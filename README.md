@@ -134,7 +134,8 @@ Daniel Gempesaw <gempesaw@gmail.com>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Daniel Gempesaw.
+This software is Copyright (c) 2014 by Daniel Gempesaw.
 
-This is free software; you can redistribute it and/or modify it under
-the same terms as the Perl 5 programming language system itself.
+This is free software, licensed under:
+
+    The MIT (X11) License
