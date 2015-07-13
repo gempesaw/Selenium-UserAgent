@@ -69,11 +69,24 @@ are:
     android_phone
     android_tablet
 
+These are more specific than the choices for device agent in previous
+versions of this module, but to preserve existing functionality, the
+following conversions are made to the deprecated device selections:
+
+    iphone         => "iphone4"
+    ipad_seven     => "ipad"
+    android_phone  => "nexus4"
+    android_tablet => "nexus10"
+
+The exact resolutions and user agents are included in the source and
+in the L<github
+repo|https://github.com/gempesaw/Selenium-UserAgent/blob/master/lib/Selenium/devices.json>.
+
 Usage looks like:
 
     my $sua = Selenium::UserAgent->new(
         browserName => 'chrome',
-        agent => 'ipad_seven'
+        agent => 'ipad'
     );
 
 =cut
@@ -85,11 +98,25 @@ has agent => (
         my $agent = $_[0];
 
         my @valid = qw/iphone ipad_seven ipad android_phone android_tablet/;
+sub _convert_deprecated_agent {
+    my ($agent) = @_;
 
-        croak 'invalid agent: "' . $agent . '"' unless grep { $_ eq $agent } @valid;
+    my %deprecated = (
+        iphone => 'iphone4',
+        ipad_seven => 'ipad',
+        android_phone => 'nexus4',
+        android_tablet => 'nexus10'
+    );
+
+    if ( exists $deprecated{ $agent }) {
+        # Attempt to return the updated agent key as of v0.06 that will be able to
+        # pass the coercion
+        return $deprecated{ $agent };
+    }
+    else {
         return $agent;
     }
-);
+}
 
 =attr orientation
 
