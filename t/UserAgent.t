@@ -70,13 +70,16 @@ foreach my $browser (@browsers) {
                         height: window.innerHeight
                     }/);
 
-                    # useragents with underscores in them need to be trimmed.
-                    # for example, ipad_seven only has 'iPad' in its user
-                    # agent, not 'ipad_seven'
-                    my $expected_agent = $agent;
-                    $expected_agent =~ s/_.*//;
-                    cmp_ok($details->{agent} , '=~', qr/$expected_agent/i, 'user agent includes ' . $agent);
-                    cmp_ok($details->{width} , '==', $sua->_get_size->{width}, 'width is correct.');
+                    my $expected_agent = get_expected_agent( $agent );
+                    my $expected_width = $sua->_get_size->{width};
+                    if ($expected_width < 335 && $browser eq 'firefox') {
+                        # Firefox doesn't get any smaller than 335,
+                        # but some device resolutions ask for 320. We
+                        # have to compensate a little in the tests.
+                        $expected_width = 335;
+                    }
+                    cmp_ok($details->{agent} , '=~', $expected_agent, 'user agent includes ' . $agent);
+                    cmp_ok($details->{width} , '==', $expected_width, 'width is correct.');
                     cmp_ok($details->{height}, '==', $sua->_get_size->{height} , 'height is correct.');
                 }
             };
@@ -105,6 +108,19 @@ sub validate_caps_structure {
     my $size = $caps->{inner_window_size};
     my $cmp = $orientation eq 'portrait' ? '>' : '<';
     cmp_ok($size->[0], $cmp, $size->[1], 'window size: correct order');
+}
+
+sub get_expected_agent {
+    my ($agent) = @_;
+
+    # all of the iphone devices start with i: iPad, iPhone. None of
+    # the Android devices do: galaxy, nexus, android.
+    if ($agent =~ /^i/) {
+        return qr/iphone|ipad/i;
+    }
+    else {
+        return qr/android/i;
+    }
 }
 
 done_testing;
