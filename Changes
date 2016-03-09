@@ -1,5 +1,8 @@
 Revision history for perl module Selenium::UserAgent
 
+0.07 2016-03-09
+ - Use Chrome's mobileEmulation option to set device-width
+
 0.06 2015-07-13
  - Add new device candidates with specific types
  - Deprecate almost all of the old device candidates
