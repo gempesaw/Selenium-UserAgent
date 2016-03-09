@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use JSON;
 use Test::More;
 use IO::Socket::INET;
 use Test::ParallelSubtest max_parallel => 5;
@@ -97,9 +98,10 @@ sub validate_caps_structure {
     ok($desired->{browserName} eq $browser, 'caps: with proper browser');
 
     if ($browser eq 'chrome') {
-        my $chrome_args = join('', @{ $desired->{chromeOptions}->{args} });
+        my $chrome_args = to_json($desired->{chromeOptions});
         ok($chrome_args =~ /user-agent/, 'caps: Chrome has user agent arg');
-        ok($chrome_args =~ /window-size/, 'caps: Chrome has window size arg');
+        ok($chrome_args =~ /mobileEmulation.*deviceMetrics.*pixelRatio/,
+           'caps: Chrome has mobile emulation arg');
     }
     elsif ($browser eq 'firefox') {
         ok(exists $desired->{firefox_profile}, 'caps: FF has firefox_profile key');

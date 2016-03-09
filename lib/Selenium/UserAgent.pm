@@ -197,14 +197,22 @@ has _chrome_options => (
     builder => sub {
         my ($self) = @_;
 
-        my $size = $self->_get_size_for('chrome');
+        my $size = $self->_get_size;
+        my $window_size = $size->{width} . ',' . $size->{height};
 
         return {
             chromeOptions => {
-                'args' => [
+                args => [
                     'user-agent=' . $self->_get_user_agent,
-                    'window-size=' . $size
-                ]
+                ],
+                mobileEmulation => {
+                    deviceMetrics => {
+                        width => $size->{width} + 0,
+                        height => $size->{height} + 0,
+                        pixelRatio => $size->{pixel_ratio}
+                    },
+                    userAgent => $self->_get_user_agent
+                }
             }
         }
     }
@@ -301,7 +309,10 @@ sub _get_size {
     my $agent = $self->agent;
     my $orientation = $self->orientation;
 
-    return $specs->{$agent}->{$orientation};
+    my $size = $specs->{$agent}->{$orientation};
+    $size->{pixel_ratio} = $specs->{$agent}->{pixel_ratio};
+
+    return $size;
 }
 
 sub _get_size_for {
