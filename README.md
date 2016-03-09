@@ -6,7 +6,7 @@ Selenium::UserAgent - Emulate mobile devices by setting user agents when using w
 
 # VERSION
 
-version 0.06
+version 0.07
 
 # SYNOPSIS
 
@@ -76,7 +76,9 @@ following conversions are made to the deprecated device selections:
 
 The exact resolutions and user agents are included in the source and
 in the [github
-repo](https://github.com/gempesaw/Selenium-UserAgent/blob/master/lib/Selenium/devices.json).
+repo](https://github.com/gempesaw/Selenium-UserAgent/blob/master/lib/Selenium/devices.json);
+they're vetted against the [values that Mozilla uses for
+Firefox](https://code.cdn.mozilla.net/devices/devices.json).
 
 Usage looks like:
 

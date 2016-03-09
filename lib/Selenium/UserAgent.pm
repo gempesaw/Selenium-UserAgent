@@ -90,7 +90,9 @@ following conversions are made to the deprecated device selections:
 
 The exact resolutions and user agents are included in the source and
 in the L<github
-repo|https://github.com/gempesaw/Selenium-UserAgent/blob/master/lib/Selenium/devices.json>.
+repo|https://github.com/gempesaw/Selenium-UserAgent/blob/master/lib/Selenium/devices.json>;
+they're vetted against the L<values that Mozilla uses for
+Firefox|https://code.cdn.mozilla.net/devices/devices.json>.
 
 Usage looks like:
 
