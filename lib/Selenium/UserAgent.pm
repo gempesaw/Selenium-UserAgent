@@ -72,6 +72,7 @@ are:
     galaxy_s5
     galaxy_note3
     nexus4
+    nexus9
     nexus10
 
 These are more specific than the choices for device agent in previous
@@ -116,6 +117,7 @@ has agent => (
                           galaxy_s5
                           galaxy_note3
                           nexus4
+                          nexus9
                           nexus10
                       /;
 

@@ -6,7 +6,7 @@ Selenium::UserAgent - Emulate mobile devices by setting user agents when using w
 
 # VERSION
 
-version 0.07
+version 0.08
 
 # SYNOPSIS
 
@@ -58,6 +58,7 @@ are:
     galaxy_s5
     galaxy_note3
     nexus4
+    nexus9
     nexus10
 
 These are more specific than the choices for device agent in previous
