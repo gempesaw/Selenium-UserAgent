@@ -1,5 +1,8 @@
 Revision history for perl module Selenium::UserAgent
 
+0.08 2016-03-15
+ - Add nexus9 as an option for emulation
+
 0.07 2016-03-09
  - Use Chrome's mobileEmulation option to set device-width
 
