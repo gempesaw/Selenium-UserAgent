@@ -45,48 +45,47 @@ foreach my $browser (@browsers) {
         foreach my $orientation (@orientations) {
             my $test_prefix = join(', ', ($browser, $agent, $orientation));
 
-                my $sua = Selenium::UserAgent->new(
-                    browserName => $browser,
-                    agent => $agent,
-                    orientation => $orientation
-                );
+            my $sua = Selenium::UserAgent->new(
+                browserName => $browser,
+                agent => $agent,
+                orientation => $orientation
+            );
 
-                my $caps = $sua->caps;
-                validate_caps_structure($caps, $browser, $orientation);
+            my $caps = $sua->caps;
+            validate_caps_structure($caps, $browser, $orientation);
 
-              SKIP: {
-                    skip 'Release tests not required for installation', 4 unless $ENV{RELEASE_TESTING};
-                    skip 'remote driver server not found', 4
-                      unless $has_local_webdriver_server;
+          SKIP: {
+                skip 'Release tests not required for installation', 4 unless $ENV{RELEASE_TESTING};
+                skip 'remote driver server not found', 4
+                  unless $has_local_webdriver_server;
 
-                    my $driver = Selenium::Remote::Driver->new_from_caps(%$caps);
-                    my $actual_caps = $driver->get_capabilities;
+                my $driver = Selenium::Remote::Driver->new_from_caps(%$caps);
+                my $actual_caps = $driver->get_capabilities;
 
-                    ok($actual_caps->{browserName} eq $browser, 'correct browser');
+                ok($actual_caps->{browserName} eq $browser, 'correct browser');
 
-                    my $details = $driver->execute_script(qq/return {
-                        agent: navigator.userAgent,
-                        width: window.innerWidth,
-                        height: window.innerHeight
-                    }/);
+                my $details = $driver->execute_script(qq/return {
+                    agent: navigator.userAgent,
+                    width: window.innerWidth,
+                    height: window.innerHeight
+                }/);
 
-                    my $expected_agent = get_expected_agent( $agent );
-                    my $expected_width = $sua->_get_size->{width};
-                    if ($expected_width < 335 && $browser eq 'firefox') {
-                        # Firefox doesn't get any smaller than 335,
-                        # but some device resolutions ask for 320. We
-                        # have to compensate a little in the tests.
-                        $expected_width = 335;
-                    }
-                    cmp_ok($details->{agent} , '=~', $expected_agent, 'user agent includes ' . $agent);
-                    cmp_ok($details->{width} , '==', $expected_width, 'width is correct.');
-                    cmp_ok($details->{height}, '==', $sua->_get_size->{height} , 'height is correct.');
+                my $expected_agent = get_expected_agent( $agent );
+                my $expected_width = $sua->_get_size->{width};
+                if ($expected_width < 335 && $browser eq 'firefox') {
+                    # Firefox doesn't get any smaller than 335,
+                    # but some device resolutions ask for 320. We
+                    # have to compensate a little in the tests.
+                    $expected_width = 335;
                 }
-            };
-
-        }
+                cmp_ok($details->{agent} , '=~', $expected_agent, 'user agent includes ' . $agent);
+                cmp_ok($details->{width} , '==', $expected_width, 'width is correct.');
+                cmp_ok($details->{height}, '==', $sua->_get_size->{height} , 'height is correct.');
+            }
+        };
     }
 }
+
 
 sub validate_caps_structure {
     my ($caps, $browser, $orientation)  = @_;
