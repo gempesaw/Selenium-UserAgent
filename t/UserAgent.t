@@ -6,7 +6,6 @@ use warnings;
 use JSON;
 use Test::More;
 use IO::Socket::INET;
-use Test::ParallelSubtest max_parallel => 5;
 use Selenium::Remote::Driver 0.2102;
 use Selenium::UserAgent;
 
@@ -45,7 +44,7 @@ foreach my $browser (@browsers) {
     foreach my $agent (@agents) {
         foreach my $orientation (@orientations) {
             my $test_prefix = join(', ', ($browser, $agent, $orientation));
-            bg_subtest $test_prefix => sub {
+
                 my $sua = Selenium::UserAgent->new(
                     browserName => $browser,
                     agent => $agent,
