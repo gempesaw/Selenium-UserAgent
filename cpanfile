@@ -11,7 +11,6 @@ on 'test' => sub {
   requires "Net::SSL" => "0";
   requires "Selenium::Remote::Driver" => "0.2102";
   requires "Test::More" => "0";
-  requires "Test::ParallelSubtest" => "0";
   requires "Test::Spec" => "0";
   requires "strict" => "0";
   requires "warnings" => "0";
