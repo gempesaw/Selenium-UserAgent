@@ -1,5 +1,8 @@
 Revision history for perl module Selenium::UserAgent
 
+0.09 2016-06-05
+ - Stop using Test::ParallelSubtest
+
 0.08 2016-03-15
  - Add nexus9 as an option for emulation
 
