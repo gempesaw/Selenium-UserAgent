@@ -5,7 +5,7 @@ use Moo;
 use JSON;
 use Cwd qw/abs_path/;
 use Carp qw/croak/;
-use List::Util qw/any/;
+use List::Util 1.33 qw/any/;
 use Selenium::Firefox::Profile;
 
 =for markdown [![Build Status](https://travis-ci.org/gempesaw/Selenium-UserAgent.svg?branch=master)](https://travis-ci.org/gempesaw/Selenium-UserAgent)
