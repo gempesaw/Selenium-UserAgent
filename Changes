@@ -1,5 +1,8 @@
 Revision history for perl module Selenium::UserAgent
 
+0.10 2016-08-19
+ - Assert minimum required version for List::Util
+
 0.09 2016-06-05
  - Stop using Test::ParallelSubtest
 
