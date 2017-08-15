@@ -203,12 +203,7 @@ has _chrome_options => (
                     'user-agent=' . $self->_get_user_agent,
                 ],
                 mobileEmulation => {
-                    deviceMetrics => {
-                        width => $size->{width} + 0,
-                        height => $size->{height} + 0,
-                        pixelRatio => $size->{pixel_ratio}
-                    },
-                    userAgent => $self->_get_user_agent
+                    deviceName => $self->_agent_to_chrome
                 }
             }
         }
@@ -264,7 +259,7 @@ sub caps {
     my $options = $self->_desired_options(%args);
 
     return {
-        inner_window_size => $self->_get_size_for('caps'),
+        # inner_window_size => $self->_get_size_for('caps'),
         desired_capabilities => {
             browserName => $self->browserName,
             %$options
@@ -330,6 +325,31 @@ sub _is_firefox {
 
 sub _is_chrome {
     return shift->browserName =~ /chrome/i
+}
+
+sub _agent_to_chrome {
+    my ($self) = @_;
+
+    my $map = {
+        iphone4 => 'iPhone 4',
+        iphone5 => 'iPhone 5',
+        iphone6 => 'iPhone 6',
+        iphone6plus => 'iPhone 6 Plus',
+        ipad_mini => 'iPad Mini',
+        ipad => 'iPad',
+        galaxy_s3 => 'Galaxy S III',
+        galaxy_s5 => 'Galaxy S5',
+        galaxy_note3 => 'Galaxy Note 3',
+        nexus4 => 'Nexus 4',
+        nexus9 => 'Nexus 10',
+        nexus10 => 'Nexus 10',
+        iphone         => 'iPhone 4',
+        ipad_seven     => 'iPad',
+        android_phone  => 'Nexus 4',
+        android_tablet => 'Nexus 10'
+    };
+
+    return $map->{$self->agent};
 }
 
 1;
