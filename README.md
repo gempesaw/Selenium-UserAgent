@@ -6,7 +6,7 @@ Selenium::UserAgent - Emulate mobile devices by setting user agents when using w
 
 # VERSION
 
-version 0.10
+version 0.11
 
 # SYNOPSIS
 
